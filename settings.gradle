@@ -1,0 +1,6 @@
+include ':app', ':multi-model', ':multi-view', ':multi-aop'
+
+rootProject.children.each {
+    it.buildFileName = it.name+'.gradle'-'multi-'
+}
+println "测试:"+PROP_BUILD_TYPE

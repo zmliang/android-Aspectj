@@ -1,0 +1,52 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'org.aspectj:aspectjtools:1.8.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+    ext{
+        isDevelopMode = false
+        PROP_IS_DEVELOPMENT_MODE = true
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+this.beforeEvaluate {
+    println '配置阶段开始啦。。。。'
+}
+
+this.afterEvaluate {
+    println '配置阶段结束啦。。。。'
+}
+
+this.gradle.buildFinished {
+    println 'gradle 执行完毕啦。。。'
+}
+for (Project proj:this.getSubprojects()){
+    def xmlFile = proj.file('src/main/AndroidManifest.xml')
+    def rootManifest = new XmlSlurper().parse(xmlFile)
+    //rootManifest.setProperty('@android:versionName','mode'+proj.name)//修改子项目文件属性
+    //println '子项目versionName:'+rootManifest['@android:versionName']
+    println '子项目package:'+rootManifest['@package']
+}
+
+println '初始化阶段开始啦。。。。'
