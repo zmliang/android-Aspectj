@@ -1,4 +1,4 @@
-include ':app', ':multi-model', ':multi-view', ':multi-aop'
+include ':app', ':multi-model', ':multi-view', ':multi-aop', ':multi-rxbus'
 
 rootProject.children.each {
     it.buildFileName = it.name+'.gradle'-'multi-'

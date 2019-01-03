@@ -43,6 +43,7 @@ dependencies {
     implementation project(':multi-model')
     implementation project(':multi-view')
     implementation project(':multi-aop')
+    implementation project(':multi-rxbus')
 }
 
 final def log = project.logger

@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/multi-aop" />
             <option value="$PROJECT_DIR$/multi-model" />
+            <option value="$PROJECT_DIR$/multi-rxbus" />
             <option value="$PROJECT_DIR$/multi-view" />
           </set>
         </option>

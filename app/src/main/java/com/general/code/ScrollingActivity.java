@@ -5,14 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.general.code.model.GeneralModel;
-import com.general.code.view.GeneralView;
+import com.general.rxbus.RxBus;
+import com.general.rxbus.RxBusSubscription;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ScrollingActivity extends AppCompatActivity {
+
+    RxBusSubscription<String> subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +30,22 @@ public class ScrollingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                RxBus.get().post(new String("aaaaaa"));
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
         testAnnotatedMethod();
+        subscription = RxBus.get().Register(String.class);
+        subscription.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscription.new RestrictedSubscriber<String>() {
+                    @Override
+                    public void onNextCompat(String t) {
+                        Log.i("ZML",t.toString());
+                    }
+                });
     }
 
     @Override
