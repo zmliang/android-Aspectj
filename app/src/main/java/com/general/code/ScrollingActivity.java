@@ -10,10 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.general.rxbus.RxBus;
 import com.general.rxbus.RxBusSubscription;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ScrollingActivity extends AppCompatActivity {
 
@@ -30,13 +27,14 @@ public class ScrollingActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RxBus.get().post(new String("aaaaaa"));
+            //    RxBus.get().post(new String("aaaaaa"));
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
-        testAnnotatedMethod();
+
+        /*
         subscription = RxBus.get().Register(String.class);
         subscription.subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,6 +44,8 @@ public class ScrollingActivity extends AppCompatActivity {
                         Log.i("ZML",t.toString());
                     }
                 });
+        */
+        testAnnotatedMethod();
     }
 
     @Override
@@ -71,12 +71,8 @@ public class ScrollingActivity extends AppCompatActivity {
     }
 
 
-    @DebugTrace
+    @DebugTraceParam(value = "卧槽",param = "泥马")
     private void testAnnotatedMethod(){
-        try{
-            Thread.sleep(1000);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
+        Log.i("zmliang","==========");
     }
 }

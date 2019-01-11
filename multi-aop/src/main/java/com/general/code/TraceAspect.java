@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import java.lang.reflect.Method;
+
 /**
  * Author: zml
  * Date  : 2019/1/2 - 19:10
@@ -18,6 +20,8 @@ public class TraceAspect {
     private static final String POINTCUT_METHOD = "execution(@com.general.code.DebugTrace * *(..))";
 
     private static final String POINTCUT_CONSTRUCTOR = "execution(@com.general.code.DebugTrace *.new(..))";
+
+    private static final String POINTCUT_METHOD_PARAM = "execution(@com.general.code.DebugTraceParam * *(..))";
 
     /*
     @Before("methodAnnotatedWithDebugTrace()")
@@ -31,6 +35,9 @@ public class TraceAspect {
 
     @Pointcut(POINTCUT_CONSTRUCTOR)
     public void constructAnnotatedDebugTrace(){}
+
+    @Pointcut(POINTCUT_METHOD_PARAM)
+    public void methodAnnotatedWithDebugTraceParam(){}
 
 
 
@@ -51,6 +58,19 @@ public class TraceAspect {
         stopWatch.stop();
 
         Log.i(className, buildLogMessage(methodName, stopWatch.getTotalTimeMillis()));
+        return result;
+    }
+
+    @Around("methodAnnotatedWithDebugTraceParam()")
+    public Object weaveJoinPointParam(ProceedingJoinPoint joinPoint) throws Throwable{
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        String value = method.getAnnotation(DebugTraceParam.class).value();
+        String param = method.getAnnotation(DebugTraceParam.class).param();
+        Class clz = method.getAnnotation(DebugTraceParam.class).clz();
+        // 被注解的方法在这一行代码被执行
+        Object result = joinPoint.proceed();
+        Log.i("zmliang","value="+value+"; param="+param);
         return result;
     }
 
